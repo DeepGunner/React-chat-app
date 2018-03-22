@@ -10,7 +10,6 @@ module.exports = function (app) {
     app.use(async function (req, res, next) {
         var token = req.cookies.jwtID;
         if (token) {
-            // console.log(token)
             jwt.verify(token, process.env.jwt_SECRET, async function (err, decoded) {
                 if (err) {
                     next()
@@ -27,20 +26,14 @@ module.exports = function (app) {
         }
     });
 
-    // New User Sign Up Routes
-    // Present the User Sign Up page
-    app.get('/signup', async (req, res) => {
-        var error = req.query.error || '';
-        res.render('authViews/signUp', { error });
-    });
     // Create a new user, when the user submits
-    // the user creation form
     app.post('/signup', async (req, res) => {
         var error;
         // confirm that user typed same password twice
         if (req.body.password !== req.body.passwordConfirmation) {
             error = "The passwords don't match. Please try again";
-            res.redirect('/signup?error=' + encodeURIComponent(error));
+            res.status(400);
+            return res.json({ error });
         }
         // Check if the user has entered a user and password
         if (req.body.username && req.body.password) {
@@ -57,21 +50,21 @@ module.exports = function (app) {
                     }, process.env.jwt_SECRET, {
                             expiresIn: 86400 // expires in 24 hours
                         });
-                    // Redirect the user to homepage upon
                     res.cookie('jwtID', token, { httpOnly: true });
-                    res.redirect('/');
+                    res.json({
+                        error: null,
+                        message: "You've successfully signed up!"
+                    })
                 }, function (err) {
                     // In case of any validation errors present
-                    // the sign up form again with relevant errors
-                    error = err;
-                    res.redirect('/signup?error=' + encodeURIComponent(error));
+                    error = err.toString() + ". There was an internal error, please try again.";
+                    res.status(500);
+                    return res.json({ error });
                 });
         } else {
-            // When the user attempts to submit the form with empty
-            // values, present the sign up form again with a relevant
-            // error message
             error = 'Please enter a username and password';
-            res.redirect('/signup?error=' + encodeURIComponent(error));
+            res.status(400);
+            return res.json({ error });
         }
     });
 
@@ -114,11 +107,6 @@ module.exports = function (app) {
                     });
                 // Redirect the user to homepage upon
                 res.cookie('jwtID', token, { httpOnly: true });
-                // set the password to null,
-                // so it's not available in the sessions cookie
-                // user.password = null;
-                // Store the user in the session:
-                // req.session.user = user;
                 res.redirect('/');
             } else {
                 // If the password doesn't match, display the login page again

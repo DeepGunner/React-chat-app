@@ -126,10 +126,13 @@ module.exports = function (app) {
 
     // User Logout Route
     app.post('/logout', async function (req, res) {
-
-        // So, I eplicitly delete the cookie from the user's browser
+        var error
+        // Eplicitly delete the cookie from the user's browser
         res.clearCookie('jwtID');
-        // Redirect the user to the homepage
-        res.redirect('/login');
+        res.status(200);
+        return res.json({
+            error: null,
+            message: "User successfully logged out."
+        });
     });
 }

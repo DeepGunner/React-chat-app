@@ -69,20 +69,22 @@ module.exports = function (app) {
     });
 
     // User Login Routes
-    // Present the user witht he log in page:
     app.get('/login', async function (req, res) {
-        var error = req.query.error || '';
+        var error
         if (req.user) {
-            // If the user is already logged in, redirect
-            // to the homepage
+            // If the user is already logged in => truth
             var error = "You are already logged in! Quit playing games with my heart!"
-            res.redirect('/?error=' + encodeURIComponent(error));
+            return res.json({
+                isUserLoggedIn: true,
+                error
+            })
         } else {
-            // Else, present the user with a login form
-            var error;
-            res.render('authViews/login', { error });
+            return res.json({
+                isUserLoggedIn: false,
+            })
         }
     });
+    
     // Log... in... the user:
     app.post('/login', async function (req, res) {
         var error;

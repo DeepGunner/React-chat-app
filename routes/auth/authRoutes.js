@@ -84,7 +84,7 @@ module.exports = function (app) {
             })
         }
     });
-    
+
     // Log... in... the user:
     app.post('/login', async function (req, res) {
         var error;
@@ -95,10 +95,11 @@ module.exports = function (app) {
             // If the user doesn't exist, display the login page again
             // with a relevant error message
             error = "The username doesn't exist! Try again.";
-            res.redirect('/login?error=' + encodeURIComponent(error));
+            res.status(400);
+            return res.json({ error });
         } else {
-            // Bcrypt checks if the user password matches with the 
-            // hashed equivalent stored in the DB
+            // Bcrypt checks if the password entered matches with 
+            // its hashed equivalent stored in the DB
             if (bcrypt.compareSync(req.body.password, user.password)) {
                 // create token
                 var token = jwt.sign({
@@ -107,14 +108,18 @@ module.exports = function (app) {
                 }, process.env.jwt_SECRET, {
                         expiresIn: 86400 // expires in 24 hours
                     });
-                // Redirect the user to homepage upon
                 res.cookie('jwtID', token, { httpOnly: true });
-                res.redirect('/');
+                res.status(200);
+                return res.json({
+                    error: null,
+                    message: "User successfully logged in."
+                });
             } else {
-                // If the password doesn't match, display the login page again
+                // If the password doesn't match, respond
                 // with a relevant error message
                 error = "The password that you've entered is incorrect! Try again.";
-                res.redirect('/login?error=' + encodeURIComponent(error));
+                res.status(400);
+                return res.json({ error });
             }
         }
     });

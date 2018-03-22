@@ -12,4 +12,5 @@ mongoose.connect(connectURL);
 mongoose.Promise = Promise;
 
 // Combine all the models
-module.exports.User = require('./Users');
+module.exports.User = require('./User');
+module.exports.Message = require('./Message');

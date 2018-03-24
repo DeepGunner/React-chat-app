@@ -13,7 +13,12 @@ var userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    email: { type: String },
+    email: { 
+        type: String,
+        required: true,
+        unique: true,
+        trim: true
+     },
     firstName: { type: String },
     lastName: { type: String },
     organnization: { type: String },

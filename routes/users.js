@@ -24,7 +24,11 @@ router.get('/users', function (req, res) {
       return res.json({
         error: "There's some goof-up finding the user!"
       })
-
+    } else if (!user) {
+      res.status(500)
+      return res.json({
+        error: "There's some goof-up finding the user!"
+      })
     }
     res.status(200)
     return res.json({

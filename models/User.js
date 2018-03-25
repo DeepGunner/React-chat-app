@@ -37,7 +37,8 @@ var userSchema = new mongoose.Schema({
             ref: 'Room',
             default: 'general'
         },
-        history: Object // {}
+        history: Object, // or {} for Mixed, An "anything goes" SchemaType, its
+                         // flexibility comes at a trade-off of it being harder to maintain.
     }
     
 }, { timestamps: true });

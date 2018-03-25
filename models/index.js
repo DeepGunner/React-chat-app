@@ -14,3 +14,4 @@ mongoose.Promise = Promise;
 // Combine all the models
 module.exports.User = require('./User');
 module.exports.Message = require('./Message');
+module.exports.Room = require('./Room');

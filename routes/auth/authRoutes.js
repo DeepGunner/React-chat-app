@@ -1,5 +1,5 @@
 // require('dotenv').config()
-const db = require("../models");
+const db = require("../../models");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
@@ -51,9 +51,23 @@ module.exports = function (app) {
                             expiresIn: 86400 // expires in 24 hours
                         });
                     res.cookie('jwtID', token, { httpOnly: true });
-                    res.json({
+                    // Add the newly signed up user to the #general channel
+                    await db.Room.findOneAndUpdate({
+                        channel_id: 'general'
+                    }, {
+                            $push: { users: user._id }
+                        }, {
+                            upsert: true
+                        }, (err) => {
+                            if (err) return res.json({
+                                error: null,
+                                message: "Account created! However, there was an error adding you to the #general channel: " + err.toString(),
+                            })
+                        })
+
+                    return res.json({
                         error: null,
-                        message: "You've successfully signed up!"
+                        message: "Account created! You've been added to the #general channel"
                     })
                 }, function (err) {
                     // In case of any validation errors present

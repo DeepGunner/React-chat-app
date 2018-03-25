@@ -7,6 +7,7 @@ var userSchema = new mongoose.Schema({
         lowercase: true,
         required: [true, "can't be blank"],
         match: [/^[a-zA-Z0-9]+$/, 'is invalid'],
+        unique: true,
         index: true
     },
     password: {
@@ -22,6 +23,22 @@ var userSchema = new mongoose.Schema({
     firstName: { type: String },
     lastName: { type: String },
     organnization: { type: String },
+    rooms: {
+        sidebar: {
+            channels: {
+                type: Array,
+                ref: 'Room',
+                default: ['general']
+            },
+            directMessages: { type: Array }
+        },
+        active: {
+            type: String,
+            ref: 'Room',
+            default: 'general'
+        },
+        history: Object // {}
+    }
     
 }, { timestamps: true });
 

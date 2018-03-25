@@ -18,7 +18,8 @@ var messageSchema = mongoose.Schema({
 }, { timestamps: true });
 
 // compound indexes
-messageSchema.index({ createdAt: 1, type: -1 }, { room: 1 });
+messageSchema.index({ createdAt: 1, type: -1 });  
+// Doesn't take the second argument '{ room: 1 }'
 // Created an index on 'createdAt' (sorted in chronological order)
 // and on 'room'
 

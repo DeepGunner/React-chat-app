@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const generateId = require('shortid').generate;
+var mongoose = require('mongoose');
+var generateId = require('shortid').generate;
 
 var roomSchema = mongoose.Schema({
     channel_id: {

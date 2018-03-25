@@ -42,7 +42,7 @@ module.exports = function (app) {
                 password: req.body.password
             };
             db.User.create(userObject)
-                .then(function (user) {
+                .then(async function (user) {
                     // create token
                     var token = jwt.sign({
                         userID: user._id,

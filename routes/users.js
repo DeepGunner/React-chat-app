@@ -18,7 +18,7 @@ router.get('/users', function (req, res) {
     })
   }
 
-  db.User.findOne({ query }, function (err, user) {
+  db.User.findOne(query, {password: 0}, function (err, user) {
     if (err) {
       res.status(500)
       return res.json({

@@ -39,7 +39,8 @@ module.exports = function (app) {
         if (req.body.username && req.body.password) {
             var userObject = {
                 username: req.body.username,
-                password: req.body.password
+                password: req.body.password,
+                email: req.body.email,
             };
             db.User.create(userObject)
                 .then(async function (user) {

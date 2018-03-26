@@ -3,7 +3,7 @@
 /**
  * Module dependencies.
  */
-
+require('dotenv').config();
 var app = require('../app');
 var debug = require('debug')('blackchat:server');
 var http = require('http');
@@ -20,6 +20,11 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
+
+/**
+ * Create Socket.IO instance.
+ */
+require('../webSocket')(server);
 
 /**
  * Listen on provided port, on all network interfaces.

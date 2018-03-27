@@ -12,32 +12,31 @@ export default class LoginForm extends Component {
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.setUser = this.setUser.bind(this);
 	}
-	setUser(response){
-		if(!response.isUser){
-			this.props.setUser(response.user)
+	setUser = ({user, isUser})=>{
+
+		if(isUser){
+			this.setError("User name is taken")
+		}else{
+			this.setError("")
+			this.props.setUser(user)
 		}
-		else{
-			this.setError("User name taken.")
-		}
-
-	}
-	setError(error){
-		this.setState({error});
 	}
 
-	//updates form inputs
-	handleChange = (e)=>{
-		this.setState({ nickname:e.target.value })
-	}
-
-//Sends emit to socket for verification
-	handleSubmit(event){
-		event.preventDefault()
+	handleSubmit = (e)=>{
+		e.preventDefault()
 		const { socket } = this.props
 		const { nickname } = this.state
 		socket.emit(VERIFY_USER, nickname, this.setUser)
-
 	}
+
+	handleChange = (e)=>{
+		this.setState({nickname:e.target.value})
+	}
+
+	setError = (error)=>{
+		this.setState({error})
+	}
+
 	render() {
 		const {nickname,error} = this.state
 		return (

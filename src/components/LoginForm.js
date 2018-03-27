@@ -2,20 +2,19 @@ import React, { Component } from 'react';
 import { VERIFY_USER } from '../Events'
 
 export default class LoginForm extends Component {
-	constructor(props){
-		super(props)
-
-		this.state = {
-			nickname:"",
-			error:""
-		}
-		this.handleSubmit = this.handleSubmit.bind(this);
-		this.setUser = this.setUser.bind(this);
+	constructor(props) {
+	  super(props);
+	
+	  this.state = {
+	  	nickname:"",
+	  	error:""
+	  };
 	}
+
 	setUser = ({user, isUser})=>{
 
 		if(isUser){
-			this.setError("User name is taken")
+			this.setError("User name taken")
 		}else{
 			this.setError("")
 			this.props.setUser(user)
@@ -37,23 +36,25 @@ export default class LoginForm extends Component {
 		this.setState({error})
 	}
 
-	render() {
-		const {nickname,error} = this.state
+	render() {	
+		const { nickname, error } = this.state
 		return (
 			<div className="login">
-				<form onSubmit={this.handleSubmit} className="login-form">
+				<form onSubmit={this.handleSubmit} className="login-form" >
+
 					<label htmlFor="nickname">
 						<h2>Got a nickname?</h2>
 					</label>
 					<input
-						ref={(input)=>{this.textInput= input}}
+						ref={(input)=>{ this.textInput = input }} 
 						type="text"
 						id="nickname"
 						value={nickname}
 						onChange={this.handleChange}
-						placeholder={"Myusername"}
-					/>
-					<div className="error">{error ? error:null}</div>
+						placeholder={'MYCoolUSername'}
+						/>
+						<div className="error">{error ? error:null}</div>
+
 				</form>
 			</div>
 		);

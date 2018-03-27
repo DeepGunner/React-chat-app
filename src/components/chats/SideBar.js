@@ -19,7 +19,7 @@ export default class SideBar extends Component{
 					<div className="search">
 						<i className="search-icon"><FASearch /></i>
 						<input placeholder="Search" type="text"/>
-						<div className="plus"></div>
+						
 					</div>
 					<div 
 						className="users" 

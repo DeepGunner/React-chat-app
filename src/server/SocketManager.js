@@ -1,14 +1,14 @@
 const io = require('./index.js').io
 
 const { VERIFY_USER, USER_CONNECTED, USER_DISCONNECTED, 
-		LOGOUT, COMMUNITY_CHAT, MESSAGE_RECIEVED, MESSAGE_SENT,
+		LOGOUT, GENERAL_CHAT, MESSAGE_RECIEVED, MESSAGE_SENT,
 		TYPING  } = require('../Events')
 
 const { createUser, createMessage, createChat } = require('../Factories')
 
 let connectedUsers = { }
 
-let communityChat = createChat()
+let generalChat = createChat()
 
 module.exports = function(socket){
 					
@@ -60,9 +60,9 @@ module.exports = function(socket){
 
 	})
 
-	//Get Community Chat
-	socket.on(COMMUNITY_CHAT, (callback)=>{
-		callback(communityChat)
+	//Get General Chat
+	socket.on(GENERAL_CHAT, (callback)=>{
+		callback(generalChat)
 	})
 
 	socket.on(MESSAGE_SENT, ({chatId, message})=>{

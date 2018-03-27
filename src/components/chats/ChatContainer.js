@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import SideBar from './SideBar'
-import { COMMUNITY_CHAT, MESSAGE_SENT, MESSAGE_RECIEVED, TYPING } from '../../Events'
+import { GENERAL_CHAT, MESSAGE_SENT, MESSAGE_RECIEVED, TYPING } from '../../Events'
 import ChatHeading from './ChatHeading'
 import Messages from '../messages/Messages'
 import MessageInput from '../messages/MessageInput'
@@ -18,7 +18,7 @@ export default class ChatContainer extends Component {
 
 	componentDidMount() {
 		const { socket } = this.props
-		socket.emit(COMMUNITY_CHAT, this.resetChat)
+		socket.emit(GENERAL_CHAT, this.resetChat)
 	}
 
 	/*
